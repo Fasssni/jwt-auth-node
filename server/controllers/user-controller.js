@@ -4,11 +4,16 @@ class UserController{
 
     async registration(req,res,next){ 
         try{ 
-            userService.registration(req.body.email, req.body.password)
-            res.status(200).json('successfully registered')
+            const {email, password}=req.body
+            const userData= await userService.registration(email, password)
+            res.cookie('refresToken', userData.refreshToken,{maxAge:30*24*60*60*1000, httpOnly:true})
+            res.status(200).json(userData)
 
         }catch(e){ 
+
             res.status(500).json(e)
+            console.log(e.message)
+           
 
 
         }
@@ -37,8 +42,11 @@ class UserController{
     async activate(req,res,next){ 
 
         try{ 
-
+            const activationLink=req.params.link 
+            userService.activate(activationLink)
+            return res.redirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=PLd9auH4JIHvupoMgW5YfOjqtj6Lih0MKw&index=11")
         }catch(e){ 
+            console.log(e)
 
         }
     }

@@ -17,6 +17,8 @@ app.use(cookieParser())
 app.use(express.json()) 
 app.use("/api",router)
 
+
+
 async function startApp(){ 
     try{ 
         mongoose.connect(process.env.MONGO,{ 
@@ -28,6 +30,8 @@ async function startApp(){
         console.log(e)
     }
 }
+
+
 
 startApp()
 
